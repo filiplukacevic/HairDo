@@ -11,6 +11,6 @@ namespace HairDo.Entities
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public int HairdresserId { get; set; }
-        public Hairdresser Hairdresser { get; set; }
+        public virtual Hairdresser Hairdresser { get; set; }
     }
 }

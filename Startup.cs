@@ -25,7 +25,8 @@ namespace HairDo
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<HairDoDbContext>(o =>
-                o.UseSqlServer(
+                o.UseLazyLoadingProxies()
+                .UseSqlServer(
                     Configuration.GetConnectionString("HairdoDtb2")));
 
             // In production, the React files will be served from this directory
