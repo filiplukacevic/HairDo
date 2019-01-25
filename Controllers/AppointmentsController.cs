@@ -38,9 +38,6 @@ namespace HairDo.Controllers
             }
 
             var appointment = await _context.Appointments
-                //.Include(a => a.Customer)
-                //.Include(a => a.Service)
-                //.Include(a => a.Hairdresser)
                 .SingleOrDefaultAsync(a => a.Id == id);
 
 
