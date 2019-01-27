@@ -12,7 +12,7 @@ namespace HairDo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppointmentsController : ControllerBase
+    public class AppointmentsController : Controller
     {
         private readonly HairDoDbContext _context;
 
@@ -23,9 +23,24 @@ namespace HairDo.Controllers
 
         // GET: api/Appointments
         [HttpGet]
-        public IEnumerable<Appointment> GetAppointments()
+        public IActionResult GetAppointments()
         {
-            return _context.Appointments;
+            var appointments = _context.Appointments;
+            return Ok(_context.Appointments);
+        }
+
+        [HttpGet("date")]
+        public async Task<IActionResult> GetAppointmentsByDate([FromBody] DateTime date)
+        {
+            var appointments = 
+                await _context.Appointments
+                    .Where(
+                        a => a.Date.Year == date.Year
+                            && a.Date.Month == date.Month
+                            && a.Date.Day == date.Day
+                    ).ToListAsync();
+
+            return Ok(appointments);
         }
 
         // GET: api/Appointments/5
@@ -37,9 +52,7 @@ namespace HairDo.Controllers
                 return BadRequest(ModelState);
             }
 
-            var appointment = await _context.Appointments
-                .SingleOrDefaultAsync(a => a.Id == id);
-
+            var appointment = await _context.Appointments.FindAsync(id);
 
             if (appointment == null)
             {

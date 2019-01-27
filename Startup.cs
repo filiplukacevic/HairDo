@@ -22,7 +22,13 @@ namespace HairDo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services
+                .AddMvc()
+                .AddJsonOptions(o =>
+                {
+                    o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<HairDoDbContext>(o =>
                 o.UseLazyLoadingProxies()
@@ -59,6 +65,8 @@ namespace HairDo
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
+            
 
             app.UseSpa(spa =>
             {

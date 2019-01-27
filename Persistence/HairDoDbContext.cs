@@ -22,6 +22,11 @@ namespace HairDo.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Hairdresser>()
+                .HasMany(h => h.Appointments)
+                .WithOne(a => a.Hairdresser);
+
+
             modelBuilder.Entity<Hairdresser>().HasData(
                 new Hairdresser { Id = 1, Name = "Anita" },
                 new Hairdresser { Id = 2, Name = "Ticbra" }
