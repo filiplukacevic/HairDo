@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HairDo.Entities;
 using HairDo.Persistence;
+using HairDo.DTOs;
+using System.Collections.ObjectModel;
 
 namespace HairDo.Controllers
 {
@@ -29,10 +31,10 @@ namespace HairDo.Controllers
             return Ok(_context.Appointments);
         }
 
-        [HttpGet("date")]
+        [HttpPost("date")]
         public async Task<IActionResult> GetAppointmentsByDate([FromBody] DateTime date)
         {
-            var appointments = 
+            var appointments =
                 await _context.Appointments
                     .Where(
                         a => a.Date.Year == date.Year
@@ -40,7 +42,22 @@ namespace HairDo.Controllers
                             && a.Date.Day == date.Day
                     ).ToListAsync();
 
-            return Ok(appointments);
+            ICollection<FreeAppointmentDto> dtos = new Collection<FreeAppointmentDto>();
+
+            foreach(var appointment in appointments)
+            {
+                dtos.Add(new FreeAppointmentDto
+                {
+                    HairdresserId = appointment.Hairdresser.Id,
+                    HairdresserName = appointment.Hairdresser.Name,
+                    Date = appointment.Date,
+                    ServicePrice = appointment.Service.Price,
+                    ServiceName = appointment.Service.Name,
+                    ServiceLength = appointment.Service.LengthInMinutes
+                });
+            }
+
+            return Ok(dtos);
         }
 
         // GET: api/Appointments/5
