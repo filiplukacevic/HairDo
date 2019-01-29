@@ -2,14 +2,34 @@
     margin-right: 10px;
 }
 
+
+
+
 /* Highlighting rules for nav menu items */
 .navbar .navbar-nav .active a,
 .navbar .navbar-nav .active a:hover,
 .navbar .navbar-nav .active a:focus {
     background-image: none;
-    background-color: #656dad;
-    color: white;
+    /*background-color: #088989;*/
+    background-color:#23527c;
+    border: none;
+    height: 100%;
 }
+
+ul.nav {
+    height: 50px !important;
+}
+
+li {
+    height: 49px;
+    margin-top: 0 !important;
+    border: none;
+}
+
+    li > a {
+        line-height: 30px !important;
+        border-radius: 0 !important;
+    }
 
 @media (min-width: 768px) {
     body {
@@ -56,4 +76,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+}
+
+#navbar {
+    background-color: aqua !important;
 }

@@ -62,8 +62,10 @@ export default class App extends Component {
                 let appointments = this.state.freeAppointments;
                 let filteredAppointments = [];
                 appointments.forEach((appointment) => {
-                    if (appointment.hairdresserId === this.state.selected.hairdresser) {
-                        filteredAppointments.push(appointment);
+                    if (this.state.selected.hairdresser) {
+                        if (appointment.hairdresserId === this.state.selected.hairdresser.id) {
+                            filteredAppointments.push(appointment);
+                        }
                     }
                 });
                 this.calculateFreeAppointmentsForDateAndHairdresser(filteredAppointments);

@@ -9,7 +9,7 @@ export class NavMenu extends Component {
 
   render() {
     return (
-      <Navbar inverse fixedTop fluid collapseOnSelect>
+      <Navbar inverse fixedTop fluid collapseOnSelect id="navbar">
         <Navbar.Header>
           <Navbar.Brand>
             <Link to={'/'}>HairDo</Link>
