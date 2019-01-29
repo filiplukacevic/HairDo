@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
 
 export class Counter extends Component {
   displayName = Counter.name
@@ -18,7 +19,11 @@ export class Counter extends Component {
   render() {
     return (
       <div>
-        <h1>Counter</h1>
+            <h1>Counter</h1>
+            <Button variant="contained" color="primary">
+                Hello World!
+            </Button>
+
 
         <p>This is a simple example of a React component.</p>
 
