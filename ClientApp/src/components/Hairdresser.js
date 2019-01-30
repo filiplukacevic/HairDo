@@ -10,13 +10,14 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
     card: {
-        maxWidth: 120
+        maxWidth: 120,
     },
     media: {
         objectFit: 'cover'
     },
     selected: {
-        boxShadow: "0px 3px 3px rgb(63, 81, 181)"
+        backgroundColor: "rgba(0, 121, 107, 0.1)",
+        boxShadow: "1px 3px 3px rgba(0, 121, 107, 0.6)"
     }
 };
 

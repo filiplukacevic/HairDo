@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import  ServiceList  from './components/ServiceList';
+import ServiceList from './components/ServiceList';
 import { Appointment } from './components/Appointment';
 import Contact from './components/Contact';
 
@@ -26,8 +25,9 @@ export default class App extends Component {
                 hairdresser: null,
                 service: null,
                 date: date,
-                appointment: null
-            }
+                customer: null
+            },
+            selectedServiceIndex: null
         };
     }
 
@@ -35,6 +35,8 @@ export default class App extends Component {
         this.fetchAppointmentsForSelectedDate();
         this.fetchServices();
         this.fetchHairdressers();
+
+        // this.createAppointment();
     }
 
     fetchServices() {
@@ -58,7 +60,7 @@ export default class App extends Component {
             }
         })
             .then(response => response.json())
-            .then(data => this.setState({ freeAppointments: data },  () => {
+            .then(data => this.setState({ freeAppointments: data }, () => {
                 let appointments = this.state.freeAppointments;
                 let filteredAppointments = [];
                 appointments.forEach((appointment) => {
@@ -69,8 +71,8 @@ export default class App extends Component {
                     }
                 });
                 this.calculateFreeAppointmentsForDateAndHairdresser(filteredAppointments);
-        }))
-        .catch(error => console.log(error));
+            }))
+            .catch(error => console.log(error));
     }
 
     calculateFreeAppointmentsForDateAndHairdresser(takenAppointments) {
@@ -115,46 +117,106 @@ export default class App extends Component {
         this.setState({ selected });
     }
 
+    updateServiceIndex(id) {
+        this.setState({ selectedServiceIndex: id });
+    }
+
+    createCustomer() {
+        fetch('api/Customers', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: this.state.customer.name,
+                email: this.state.customer.email,
+                phoneNumber: this.state.customer.phoneNumber
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                let selected = { ...this.state.selected };
+                selected.customer = data
+                this.setState({ selected }, () => this.createAppointment());
+            });
+    }
+
+
+    onCreateCustomer(customer) {
+        this.setState({ customer }, () => this.createCustomer());
+    }
+
+
+    createAppointment() {
+        console.log(this.state.selected.customer.id);
+        let object = JSON.stringify({
+            "date": this.state.selected.date,
+            "serviceId": this.state.selected.service.id,
+            "hairdresserId": this.state.selected.hairdresser.id,
+            "customerId": this.state.selected.customer.id
+        });
+        console.log(object);
+
+        fetch('api/Appointments', {
+            method: "POST",
+            headers: {
+                "accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "date": this.state.selected.date,
+                "serviceId": this.state.selected.service.id,
+                "hairdresserId": this.state.selected.hairdresser.id,
+                "customerId": this.state.selected.customer.id
+            })
+        })
+            .then(response => { if (response.status === 201) window.location.href = "/" })
+            .catch(error => console.log(error));
+    }
+
     render() {
-    return (
-        <Layout>
-            <Route exact path='/' component={Home} />
-            <Route
-                path='/services'
-                render={() =>
-                    (
-                        <ServiceList
-                            services={this.state.services}
-                            updateService={this.updateService.bind(this)}
-                        />
-                    )
-                }
-            />
-            <Route
-                path='/appointment'
-                render={() =>
-                    (
-                        <Appointment
-                            hairdressers={this.state.hairdressers}
-                            selectedHairdresser={this.state.selected.hairdresser}
-                            freeAppointments={this.state.freeAppointments}
-                            selectHairdresser={this.selectHairdresser.bind(this)}
-                            selectDateTime={this.selectDateTime.bind(this)}
-                            selectTime={this.selectTime.bind(this)}
-                         />
-                    )
-                }
-            />
-            <Route
-                path='/contact'
-                render={() =>
-                    (
-                        <Contact
-                            selected={this.state.selected}
-                        />
-                    )}    
-            />
-        </Layout>
+        return (
+            <Layout>
+                <Route exact path='/' component={Home} />
+                <Route
+                    path='/services'
+                    render={() =>
+                        (
+                            <ServiceList
+                                services={this.state.services}
+                                updateService={this.updateService.bind(this)}
+                                updateServiceIndex={this.updateServiceIndex.bind(this)}
+                                selectedServiceIndex={this.state.selectedServiceIndex}
+                            />
+                        )
+                    }
+                />
+                <Route
+                    path='/appointment'
+                    render={() =>
+                        (
+                            <Appointment
+                                hairdressers={this.state.hairdressers}
+                                selectedHairdresser={this.state.selected.hairdresser}
+                                freeAppointments={this.state.freeAppointments}
+                                selectHairdresser={this.selectHairdresser.bind(this)}
+                                selectDateTime={this.selectDateTime.bind(this)}
+                                selectTime={this.selectTime.bind(this)}
+                            />
+                        )
+                    }
+                />
+                <Route
+                    path='/contact'
+                    render={() =>
+                        (
+                            <Contact
+                                selected={this.state.selected}
+                                onCreateCustomer={this.onCreateCustomer.bind(this)}
+                            />
+                        )}
+                />
+            </Layout>
         );
     }
 }

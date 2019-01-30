@@ -4,6 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppointmentList from './AppointmentList';
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { orange, teal, green } from "@material-ui/core/colors";
 
 const styles = theme => ({
     root: {
@@ -12,6 +14,38 @@ const styles = theme => ({
         backgroundColor: theme.palette.background.paper,
         marginTop: 20
     }
+});
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiTabs: {
+            indicator: {
+                backgroundColor: teal[700]
+            }
+        },
+        MuiTab: {
+            root: {
+                "&:hover": {
+                    backgroundColor: teal[100],
+                    color: teal[700]
+                }
+            },
+            selected: {
+                backgroundColor: teal[100],
+                color: teal[700],
+                "&:hover": {
+                    backgroundColor: teal[100],
+                    color: teal[700]
+                }
+            }
+        }
+    },
+    palette: {
+        primary: teal,
+        secondary: {
+            main: '#f44336',
+        },
+    },
 });
 
 class DatePicker extends React.Component {
@@ -43,28 +77,29 @@ class DatePicker extends React.Component {
         this.setState({ selectedIndex: index });
     }
 
-
     render() {
         const { classes } = this.props;
         const { value } = this.state;
         return (
-            <div className={classes.root}>
-                <AppBar position="static" color="default">
-                    <Tabs
-                        value={value}
-                        onChange={this.handleChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        variant="scrollable"
-                        scrollButtons="auto"
-                    >
-                        {this.renderTabs()}
-                </Tabs>
-                </AppBar>
-                {this.renderDates()}
-            </div>
+            <MuiThemeProvider theme={theme}>
+                <div className={classes.root}>
+                    <AppBar position="static" color="default">
+                        <Tabs
+                            value={value}
+                            onChange={this.handleChange}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="scrollable"
+                            scrollButtons="auto"
+                        >
+                            {this.renderTabs()}
+                        </Tabs>
+                    </AppBar>
+                    {this.renderDates()}
+                </div>
+            </MuiThemeProvider>
         );
     }
-    }
+}
 
 export default withStyles(styles)(DatePicker);

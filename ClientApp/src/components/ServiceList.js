@@ -1,46 +1,95 @@
 import React, { Component } from 'react';
-import { ListGroup } from 'react-bootstrap';
-import { ServiceListItem } from './ServiceListItem';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { teal } from "@material-ui/core/colors";
 
 const styles = theme => ({
-    root: {
-        width: '100%',
-        backgroundColor: theme.palette.background.paper,
-        marginTop: 10
-    },
+
     button: {
         width: '100%',
         fontSize: 18
     },
-    item: {
-        fontSize: 14
-    }
+});
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiButton: {
+            root: {
+                "&:hover": {
+                    color: teal[700]
+                }
+            }
+        },
+        MuiListItem: {
+            root: {
+
+                "&selected": {
+                    backgroundColor: teal[100],
+                    color: teal[700],
+                    "&:focus": {
+                        backgroundColor: teal[100],
+                        color: teal[700]
+                    },
+                },
+                "&:hover": {
+                    backgroundColor: teal[100],
+                    color: teal[700]
+                },
+
+            },
+            button: {
+                width: "100%",
+                "&:hover": {
+                    backgroundColor: teal[100],
+                    color: teal[700]
+                },
+                "&$selected": {
+                    backgroundColor: teal[100],
+                    color: teal[700],
+                    "&:focus": {
+                        backgroundColor: teal[100],
+                        color: teal[700]
+                    }
+                },
+            }
+        }
+    },
+    palette: {
+        primary: teal,
+        secondary: {
+            main: '#f44336',
+        },
+    },
 });
 
 class ServiceList extends Component {
     displayName = ServiceList.name
 
     handleListItemClick = (event, index) => {
-        console.log(this.props.services[index]);
+        this.props.updateServiceIndex(index);
         this.props.updateService(this.props.services[index]);
+        this.renderItems();
     }
 
-    renderItems() {
+    renderItems(classes) {
         let result = (this.props.services.map((service, index) => {
-
             return (
                 <ListItem
                     button
-                    selected={this.props.selectedIndex === index}
+                    classes={classes}
+                    selected={this.props.selectedServiceIndex === index}
                     onClick={event => this.handleListItemClick(event, index)}
                 >
-                    <span className={this.props.item}>
-                        {service.name} {service.price}
+                    <span style={{ fontSize: 18 }}>
+                        {service.name}
+                    </span>
+                    <span style={{ flex: 1 }}></span>
+                    <span style={{ fontSize: 18 }}>
+                        {service.price}.00 KN
                     </span>
 
                 </ListItem>
@@ -52,16 +101,17 @@ class ServiceList extends Component {
 
     render() {
         const { classes } = this.props;
-
         return (
-            <div className={classes.root}>
-                <List component="nav">
-                    {this.renderItems()}
-                </List>
-                <Button variant="outlined" color="primary" component={Link} to="/appointment" className={classes.button}>
-                    Izaberi termin
+            <MuiThemeProvider theme={theme}>
+                <div className={classes.root2}>
+                    <List component="nav">
+                        {this.renderItems()}
+                    </List>
+                    <Button variant="outlined" color="primary" component={Link} to="/appointment" className={classes.button}>
+                        Odaberi
                 </Button>
-            </div>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }

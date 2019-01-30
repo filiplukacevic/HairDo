@@ -3,20 +3,51 @@ import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import { Link } from 'react-router-dom';
-import { Col, Grid, Row } from 'react-bootstrap';
 import Button from '@material-ui/core/Button';
-import ReactDOM from 'react-dom';
-
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { teal } from "@material-ui/core/colors";
 
 const styles = theme => ({
-    root: {
-        width: '100%',
-            backgroundColor: theme.palette.background.paper,
-            marginTop: 10,
-    },
     button: {
         width: '100%',
         fontSize: 18
+    },
+});
+
+const theme = createMuiTheme({
+    overrides: {
+        MuiButton: {
+            root: {
+                "&:hover": {
+                    color: teal[700]
+                }
+            }
+        },
+        MuiListItem: {
+            root: {
+                "&$selected": {
+                    backgroundColor: teal[100],
+                    color: teal[700],
+                    "&:focus": {
+                        backgroundColor: teal[100],
+                        color: teal[700]
+                    }
+                },
+
+            },
+            button: {
+                "&:hover": {
+                    backgroundColor: teal[100],
+                    color: teal[700]
+                }
+            }
+        }
+    },
+    palette: {
+        primary: teal,
+        secondary: {
+            main: '#f44336',
+        },
     },
 });
 
@@ -27,13 +58,7 @@ class SelectedListItem extends React.Component {
         this.renderListItems();
     };
 
-    handleClick() {
-        const domNode = ReactDOM.findDOMNode(this);
-        console.log(domNode.innerText);
-
-    }
-
-    renderListItems() {
+    renderListItems(classes) {
         let result = (this.props.freeAppointments.map((appointment, index) => {
             let start = appointment;
             let end = appointment + 1;
@@ -42,6 +67,7 @@ class SelectedListItem extends React.Component {
             return (
                 <ListItem
                     button
+                    classes={classes}
                     selected={this.props.selectedIndex === index}
                     onClick={event => this.handleListItemClick(appointment, index)}
                 >
@@ -57,16 +83,19 @@ class SelectedListItem extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const MyLink = props => <Link to="/contact" {...props}/>;
+        const MyLink = props => <Link to="/contact" {...props} />;
         return (
-            <div className={classes.root}>
-                <List component="nav">
-                    {this.renderListItems()}
-                </List>
-                <Button variant="outlined" color="primary" component={MyLink} className={classes.button}>
-                    Rezerviraj
-                </Button>
-            </div>
+            <MuiThemeProvider theme={theme}>
+                <div className={classes.root2}>
+                    <List component="nav">
+                        {this.renderListItems(classes)}
+                    </List>
+                    <Button variant="outlined" color="primary" component={MyLink} className={classes.button}>
+                        Rezerviraj
+                    </Button>
+                </div>
+            </MuiThemeProvider>
+
         );
     }
 }

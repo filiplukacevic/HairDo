@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { ListGroup } from 'react-bootstrap';
-import  Hairdresser  from './Hairdresser';
+import Hairdresser from './Hairdresser';
 import { Col, Grid, Row } from 'react-bootstrap';
 import DatePicker from './DatePicker';
 
@@ -34,7 +34,7 @@ export class Appointment extends Component {
                     hairdresser={null}
                 />
             </Col>
-            );
+        );
     }
 
     getDates(startDate = new Date(), datesToAdd = 7) {

@@ -11,6 +11,7 @@
 .navbar .navbar-nav .active a:focus {
     background-image: none;
     /*background-color: #088989;*/
+    color: white;
     background-color:#23527c;
     border: none;
     height: 100%;
@@ -32,9 +33,6 @@ li {
     }
 
 @media (min-width: 768px) {
-    body {
-        margin-top: 100px;
-    }
     /* On large screens, convert the nav menu to a vertical sidebar */
     .navbar {
         height: 50px;
