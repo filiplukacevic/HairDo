@@ -55,6 +55,7 @@ class SelectedListItem extends React.Component {
     handleListItemClick = (appointment, index) => {
         this.props.updateIndex(index);
         this.props.selectTime(appointment);
+        console.log(appointment);
         this.renderListItems();
     };
 

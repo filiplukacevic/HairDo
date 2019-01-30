@@ -6,6 +6,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import { teal } from "@material-ui/core/colors";
 import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
     root: {
@@ -106,61 +107,63 @@ class Contact extends React.Component {
 
         return (
             <div>
-                <Grid>
-                    <Row>
-                        <Col xs={4} xsOffset={4}>
-                            <h1 className={classes.title}>- Rezervacija -</h1>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={8} xsOffset={2}>
-                            <Divider variant="middle" />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={4} xsOffset={4} className={classes.title}>
-                            <h5>
-                                {date2}
-                            </h5>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={4} xsOffset={4} className={classes.title}>
-                            <h4 >
-                                {time}
-                            </h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={4} xsOffset={4} className={classes.title}>
-                            <img src={hairdresserImage} className={classes.image} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={4} xsOffset={4} className={classes.title}>
-                            <span >
-                                {hairdresser.name}
-                            </span>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={4} xsOffset={4}>
-                            <div className={classes.container}>
-                                <h4>
-                                    {service.name}
+                <MuiThemeProvider theme={theme} >
+                    <Grid>
+                        <Row>
+                            <Col xs={4} xsOffset={4}>
+                                <Typography color="primary" variant="h1" component="h1" style={{ textAlign: 'center' }}>
+                                    Rezervacija
+                                </Typography>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={8} xsOffset={2}>
+                                <Divider variant="middle" />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4} xsOffset={4} className={classes.title}>
+                                <h5>
+                                    {date2}
+                                </h5>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4} xsOffset={4} className={classes.title}>
+                                <h4 >
+                                    {time}
                                 </h4>
-                                <h4>
-                                    {service.price} kn
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4} xsOffset={4} className={classes.title}>
+                                <img src={hairdresserImage} className={classes.image} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4} xsOffset={4} className={classes.title}>
+                                <span >
+                                    {hairdresser.name}
+                                </span>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={4} xsOffset={4}>
+                                <div className={classes.container}>
+                                    <h4>
+                                        {service.name}
+                                    </h4>
+                                    <h4>
+                                        {service.price} kn
                                 </h4>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={10} xsOffset={1}>
-                            <Divider variant="middle" style={{ marginBottom: "30px" }} />
-                        </Col>
-                    </Row>
-                    <MuiThemeProvider theme={theme} >
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={10} xsOffset={1}>
+                                <Divider variant="middle" style={{ marginBottom: "30px" }} />
+                            </Col>
+                        </Row>
                         <form>
                             <Row>
                                 <Col xs={4} xsOffset={4}>
@@ -230,8 +233,9 @@ class Contact extends React.Component {
                         >
                             Rezerviraj
                         </Button>
-                    </MuiThemeProvider>
-                </Grid>
+                    </Grid>
+                </MuiThemeProvider>
+
             </div>
 
         );

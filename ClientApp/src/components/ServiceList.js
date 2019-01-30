@@ -6,6 +6,8 @@ import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { teal } from "@material-ui/core/colors";
+import Typography from '@material-ui/core/Typography';
+
 
 const styles = theme => ({
 
@@ -104,6 +106,9 @@ class ServiceList extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <div className={classes.root2}>
+                    <Typography color="primary" variant="h1" component="h1">
+                        Usluge
+                    </Typography>
                     <List component="nav">
                         {this.renderItems()}
                     </List>

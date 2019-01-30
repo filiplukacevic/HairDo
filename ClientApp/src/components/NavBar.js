@@ -70,11 +70,11 @@ function ButtonAppBar(props) {
                                     Usluge
                                 </Typography>
                             </Link>
-                            <Link to="/services" style={{ textDecoration: 'none', color: 'white', display: 'inline-block', marginLeft: '20px' }}>
+                            <a href="/#About" style={{ textDecoration: 'none', color: 'white', display: 'inline-block', marginLeft: '20px' }}>
                                 <Typography variant="h6" color="inherit" className={classes.sub}>
                                     O nama
                                 </Typography>
-                            </Link>
+                            </a>
                         </span>
                     </Toolbar>
                 </AppBar>

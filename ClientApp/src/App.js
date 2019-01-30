@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
-import { Home } from './components/Home';
+import Home from './components/Home';
 import ServiceList from './components/ServiceList';
 import { Appointment } from './components/Appointment';
 import Contact from './components/Contact';
@@ -27,15 +27,14 @@ export default class App extends Component {
                 date: date,
                 customer: null
             },
-            selectedServiceIndex: null
+            selectedServiceIndex: null,
+            freeAppointmentsNotSelectedHairdresser: null
         };
     }
 
     componentDidMount() {
-        this.fetchAppointmentsForSelectedDate();
-        this.fetchServices();
         this.fetchHairdressers();
-
+        this.fetchServices();
         // this.createAppointment();
     }
 
@@ -48,7 +47,7 @@ export default class App extends Component {
     fetchHairdressers() {
         fetch('api/Hairdressers')
             .then(response => response.json())
-            .then(data => this.setState({ hairdressers: data }));
+            .then(data => this.setState({ hairdressers: data }, () => this.fetchAppointmentsForSelectedDate()));
     }
 
     fetchAppointmentsForSelectedDate() {
@@ -63,16 +62,69 @@ export default class App extends Component {
             .then(data => this.setState({ freeAppointments: data }, () => {
                 let appointments = this.state.freeAppointments;
                 let filteredAppointments = [];
-                appointments.forEach((appointment) => {
-                    if (this.state.selected.hairdresser) {
+                console.log(this.state.selected);
+                if (this.state.selected.hairdresser) {
+                    appointments.forEach((appointment) => {
                         if (appointment.hairdresserId === this.state.selected.hairdresser.id) {
                             filteredAppointments.push(appointment);
                         }
-                    }
+                    });
+                    this.calculateFreeAppointmentsForDateAndHairdresser(filteredAppointments);
+                }
+                else {
+                    this.state.hairdressers.forEach((hairdresser) => {
+                        hairdresser.takenAppointments = [];
+                    });
+
+                    appointments.forEach((appointment) => {
+                        this.state.hairdressers.forEach((hairdresser) => {
+                            if (hairdresser.takenAppointments === undefined) {
+                                hairdresser.takenAppointments = [];
+                            }
+                            if (hairdresser.id === appointment.hairdresserId) {
+                                hairdresser.takenAppointments.push(appointment);
+                            }
+                        });
+                    });
+                    this.calculateFreeAppointmentsForDate();
+                }
+            }));
+    }
+
+    calculateFreeAppointmentsForDate() {
+        let freeAppointments = [];
+
+        for (let time = 8; time < 17; time++) {
+            freeAppointments.push(time);
+        }
+        let FA2 = [];
+
+        freeAppointments.forEach((appointment) => {
+            let bool = true;
+            this.state.hairdressers.forEach((hairdresser) => {
+                let tkHours = [];
+                hairdresser.takenAppointments.forEach((tk) => {
+                    tkHours.push((new Date(Date.parse(tk.date))).getHours() + 1);
                 });
-                this.calculateFreeAppointmentsForDateAndHairdresser(filteredAppointments);
-            }))
-            .catch(error => console.log(error));
+                if (!tkHours.includes(appointment) && !FA2.includes(appointment)) {
+                    let bool2 = false;
+                    FA2.forEach((object) => {
+                        if (object.appointment === appointment) {
+                            bool2 = true;
+                        }
+                    });
+                    if (!bool2) { FA2.push({ appointment: appointment, hairdresser: hairdresser }); }
+                }
+            });
+        });
+
+        let fa3 = [];
+        FA2.forEach(fa => {
+            fa3.push(fa.appointment);
+        })
+
+        this.setState({ freeAppointments: fa3 }, () => console.log(this.state.freeAppointments));
+        this.setState({ freeAppointmentsNotSelectedHairdresser: FA2 });
     }
 
     calculateFreeAppointmentsForDateAndHairdresser(takenAppointments) {
@@ -83,8 +135,8 @@ export default class App extends Component {
         }
 
         for (let i = 0; i < takenAppointments.length; i++) {
-            if (freeAppointments.includes(new Date(Date.parse(takenAppointments[i].date)).getHours())) {
-                freeAppointments.splice(freeAppointments.indexOf(new Date(Date.parse(takenAppointments[i].date)).getHours()), 1);
+            if (freeAppointments.includes(new Date(Date.parse(takenAppointments[i].date)).getHours() + 1)) {
+                freeAppointments.splice(freeAppointments.indexOf(new Date(Date.parse(takenAppointments[i].date)).getHours() + 1), 1);
             }
         }
 
@@ -94,6 +146,7 @@ export default class App extends Component {
     selectDateTime(date) {
         let selected = { ...this.state.selected };
         selected.date = new Date(date);
+        console.log(selected);
         this.setState({ selected }, () => this.fetchAppointmentsForSelectedDate());
     }
 
@@ -110,11 +163,25 @@ export default class App extends Component {
     }
 
     selectTime(time) {
+        console.log(this.state.freeAppointmentsNotSelectedHairdresser);
+        console.log(time);
+
         const date = this.state.selected.date;
         const newDate = new Date(date.getFullYear() + "-" + date.getMonth() + 1 + "-" + date.getDate() + " " + time + ":00:00");
         let selected = { ...this.state.selected };
         selected.date = newDate;
-        this.setState({ selected });
+
+
+        if (selected.hairdresser === null) {
+
+            this.state.freeAppointmentsNotSelectedHairdresser.forEach(app => {
+                if (app.appointment === time) {
+                    selected.hairdresser = app.hairdresser;
+                }
+            });
+        }
+
+        this.setState({ selected }, () => console.log(selected));
     }
 
     updateServiceIndex(id) {
@@ -177,7 +244,19 @@ export default class App extends Component {
     render() {
         return (
             <Layout>
-                <Route exact path='/' component={Home} />
+                <Route
+                    exact
+                    path='/'
+                    render={() =>
+                        (
+                            <Home
+                                services={this.state.services}
+                                updateService={this.updateService.bind(this)}
+                                updateServiceIndex={this.updateServiceIndex.bind(this)}
+                                selectedServiceIndex={this.state.selectedServiceIndex}
+                            />
+                        )
+                    } />
                 <Route
                     path='/services'
                     render={() =>
