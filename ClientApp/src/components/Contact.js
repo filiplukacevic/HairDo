@@ -104,8 +104,8 @@ class Contact extends React.Component {
     }
 
     render() {
-        const { classes, } = this.props;
-        let { hairdresser, service, date, appointment } = { ...this.props.selected };
+        const { classes } = this.props;
+        let { hairdresser, service, date } = { ...this.props.selected };
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let date2 = date.toLocaleDateString('hr-HR', options) + "";
         let time = date.getHours() + ":00 - " + (date.getHours() + 1) + ":00";

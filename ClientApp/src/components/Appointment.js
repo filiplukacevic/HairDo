@@ -1,10 +1,22 @@
 ﻿import React, { Component } from 'react';
-import { ListGroup } from 'react-bootstrap';
 import Hairdresser from './Hairdresser';
 import { Col, Grid, Row } from 'react-bootstrap';
 import DatePicker from './DatePicker';
+import { withStyles } from '@material-ui/core/styles';
 
-export class Appointment extends Component {
+const styles = theme => ({
+    root: {
+        width: '100%',
+        backgroundColor: theme.palette.background.paper,
+        marginTop: 10,
+        marginBottom: 100,
+        [theme.breakpoints.down('xs')]: {
+            marginBottom: 40,
+        },
+    },
+});
+
+class Appointment extends Component {
     displayName = Appointment.name
 
     renderHairdressers() {
@@ -24,7 +36,6 @@ export class Appointment extends Component {
 
     renderAnyHairdresser() {
         const mdOffset = (12 - this.props.hairdressers.length * 2) / 2 - 1;
-        const xsOffset = (12 - this.props.hairdressers.length * 4) / 2 - 1;
         return (
             <Col xs={4} md={2} mdOffset={mdOffset}>
                 <Hairdresser
@@ -50,8 +61,9 @@ export class Appointment extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         return (
-            <Grid>
+            <Grid className={classes.root}>
                 <Row className="show-grid">
                     {this.renderAnyHairdresser()}
                     {this.renderHairdressers()}
@@ -70,3 +82,4 @@ export class Appointment extends Component {
         );
     }
 }
+export default withStyles(styles)(Appointment);

@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import Home from './components/Home';
 import ServiceList from './components/ServiceList';
-import { Appointment } from './components/Appointment';
+import Appointment from './components/Appointment';
 import Contact from './components/Contact';
 
 export default class App extends Component {
@@ -62,7 +62,6 @@ export default class App extends Component {
             .then(data => this.setState({ freeAppointments: data }, () => {
                 let appointments = this.state.freeAppointments;
                 let filteredAppointments = [];
-                console.log(this.state.selected);
                 if (this.state.selected.hairdresser) {
                     appointments.forEach((appointment) => {
                         if (appointment.hairdresserId === this.state.selected.hairdresser.id) {
@@ -123,7 +122,7 @@ export default class App extends Component {
             fa3.push(fa.appointment);
         })
 
-        this.setState({ freeAppointments: fa3 }, () => console.log(this.state.freeAppointments));
+        this.setState({ freeAppointments: fa3 });
         this.setState({ freeAppointmentsNotSelectedHairdresser: FA2 });
     }
 
@@ -146,7 +145,6 @@ export default class App extends Component {
     selectDateTime(date) {
         let selected = { ...this.state.selected };
         selected.date = new Date(date);
-        console.log(selected);
         this.setState({ selected }, () => this.fetchAppointmentsForSelectedDate());
     }
 
@@ -163,8 +161,6 @@ export default class App extends Component {
     }
 
     selectTime(time) {
-        console.log(this.state.freeAppointmentsNotSelectedHairdresser);
-        console.log(time);
 
         const date = this.state.selected.date;
         const newDate = new Date(date.getFullYear() + "-" + date.getMonth() + 1 + "-" + date.getDate() + " " + time + ":00:00");
@@ -181,7 +177,7 @@ export default class App extends Component {
             });
         }
 
-        this.setState({ selected }, () => console.log(selected));
+        this.setState({ selected });
     }
 
     updateServiceIndex(id) {
@@ -215,15 +211,6 @@ export default class App extends Component {
 
 
     createAppointment() {
-        console.log(this.state.selected.customer.id);
-        let object = JSON.stringify({
-            "date": this.state.selected.date,
-            "serviceId": this.state.selected.service.id,
-            "hairdresserId": this.state.selected.hairdresser.id,
-            "customerId": this.state.selected.customer.id
-        });
-        console.log(object);
-
         fetch('api/Appointments', {
             method: "POST",
             headers: {

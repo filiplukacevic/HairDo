@@ -10,7 +10,12 @@ import Typography from '@material-ui/core/Typography';
 
 
 const styles = theme => ({
-
+    root: {
+        marginBottom: 100,
+        [theme.breakpoints.down('xs')]: {
+            marginBottom: 40,
+        },
+    },
     button: {
         width: '100%',
         fontSize: 18
@@ -105,7 +110,7 @@ class ServiceList extends Component {
         const { classes } = this.props;
         return (
             <MuiThemeProvider theme={theme}>
-                <div className={classes.root2}>
+                <div className={classes.root}>
                     <Typography color="primary" variant="h1" component="h1">
                         Usluge
                     </Typography>

@@ -4,8 +4,6 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { teal } from "@material-ui/core/colors";
-import { Glyphicon } from 'react-bootstrap';
-
 import { Link } from 'react-router-dom'
 
 
@@ -125,7 +123,7 @@ function Home(props) {
   const MyLink = props => <Link to="/services" {...props} />
   const bingMap = (
     <div style={{ marginTop: 20, marginBottom: 80 }}>
-      <iframe style={{ display: 'block', margin: "0 auto", maxWidth: "800px", width: "100%" }} height="400" frameborder="0" src="https://www.bing.com/maps/embed?h=400&w=800&cp=45.561164181725374~18.66271753440057&lvl=13&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">    </iframe>
+      <iframe style={{ display: 'block', margin: "0 auto", maxWidth: "800px", width: "100%" }} height="400" frameBorder="0" src="https://www.bing.com/maps/embed?h=400&w=800&cp=45.561164181725374~18.66271753440057&lvl=13&typ=d&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no">    </iframe>
       <div style={{ whiteSpace: "nowrap", textAlign: "center", padding: "6px 0" }}>
         <a id="largeMapLink" target="_blank" href="https://www.bing.com/maps?cp=45.561164181725374~18.66271753440057&amp;sty=r&amp;lvl=13&amp;FORM=MBEDLD">View Larger Map</a> &nbsp; | &nbsp;
         <a id="dirMapLink" target="_blank" href="https://www.bing.com/maps/directions?cp=45.561164181725374~18.66271753440057&amp;sty=r&amp;lvl=13&amp;rtp=~pos.45.561164181725374_18.66271753440057____&amp;FORM=MBEDLD">Get Directions</a>
@@ -183,7 +181,7 @@ function Home(props) {
           color="inherit"
           style={{ textAlign: "center", marginTop: 20 }}
         >
-          <i class="material-icons">location_on</i> Ulica Ljudevita Posavskog 2a, 31000 Osijek, Croatia
+          <i className="material-icons">location_on</i> Ulica Ljudevita Posavskog 2a, 31000 Osijek, Croatia
         </Typography>
         <Typography
           component="h4"
@@ -191,7 +189,7 @@ function Home(props) {
           color="inherit"
           style={{ textAlign: "center", marginTop: 20 }}
         >
-          <i class="material-icons">email</i> hairdobarbershop@gmail.com
+          <i className="material-icons">email</i> hairdobarbershop@gmail.com
         </Typography>
         <Typography
           component="h4"
@@ -199,7 +197,7 @@ function Home(props) {
           color="inherit"
           style={{ textAlign: "center", marginTop: 20 }}
         >
-          <i class="material-icons">call</i> +385 99 548 3977
+          <i className="material-icons">call</i> +385 99 548 3977
         </Typography>
         <div style={{ marginTop: 30, borderTop: "2px solid #aaa" }}></div>
         <Typography

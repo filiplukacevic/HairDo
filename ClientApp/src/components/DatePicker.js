@@ -5,7 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppointmentList from './AppointmentList';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { orange, teal, green } from "@material-ui/core/colors";
+import { teal } from "@material-ui/core/colors";
 
 const styles = theme => ({
     root: {
