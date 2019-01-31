@@ -13,6 +13,10 @@ const styles = theme => ({
         width: '100%',
         backgroundColor: theme.palette.background.paper,
         marginTop: 10,
+        marginBottom: 100,
+        [theme.breakpoints.down('xs')]: {
+            marginBottom: 40,
+        },
     },
     button: {
         width: '100%',
@@ -26,7 +30,8 @@ const styles = theme => ({
     },
     container: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     name: {
         width: "100%",
@@ -39,7 +44,8 @@ const styles = theme => ({
     },
     inputLabel: {
         fontSize: 14
-    }
+    },
+
 });
 
 const theme = createMuiTheme({
@@ -107,66 +113,66 @@ class Contact extends React.Component {
 
         return (
             <div>
-                <MuiThemeProvider theme={theme} >
-                    <Grid>
+                <MuiThemeProvider theme={theme}  >
+                    <Grid className={classes.root}>
                         <Row>
-                            <Col xs={4} xsOffset={4}>
+                            <Col xs={12} md={4} mdOffset={4}>
                                 <Typography color="primary" variant="h1" component="h1" style={{ textAlign: 'center' }}>
                                     Rezervacija
                                 </Typography>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={8} xsOffset={2}>
+                            <Col ms={12} md={8} mdOffset={2}>
                                 <Divider variant="middle" />
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4} xsOffset={4} className={classes.title}>
-                                <h5>
+                            <Col xs={12} md={4} mdOffset={4} className={classes.title}>
+                                <h4>
                                     {date2}
-                                </h5>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs={4} xsOffset={4} className={classes.title}>
-                                <h4 >
-                                    {time}
                                 </h4>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4} xsOffset={4} className={classes.title}>
+                            <Col xs={12} md={4} mdOffset={4} className={classes.title}>
+                                <h3 >
+                                    {time}
+                                </h3>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={12} md={4} mdOffset={4} className={classes.title}>
                                 <img src={hairdresserImage} className={classes.image} />
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4} xsOffset={4} className={classes.title}>
-                                <span >
+                            <Col xs={12} md={4} mdOffset={4} className={classes.title}>
+                                <h4 >
                                     {hairdresser.name}
-                                </span>
+                                </h4>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4} xsOffset={4}>
+                            <Col xs={12} md={8} mdOffset={2}>
                                 <div className={classes.container}>
-                                    <h4>
+                                    <h3 style={{ flex: 1, textAlign: 'center' }}>
                                         {service.name}
-                                    </h4>
-                                    <h4>
+                                    </h3>
+                                    <h3 style={{ minWidth: 60, marginLeft: 10, flex: 1, textAlign: 'center' }}>
                                         {service.price} kn
-                                </h4>
+                                    </h3>
                                 </div>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={10} xsOffset={1}>
+                            <Col xs={12} md={10} mdOffset={1}>
                                 <Divider variant="middle" style={{ marginBottom: "30px" }} />
                             </Col>
                         </Row>
                         <form>
                             <Row>
-                                <Col xs={4} xsOffset={4}>
+                                <Col xs={12} md={8} mdOffset={2}>
                                     <TextField
                                         className={classes.name}
                                         label="Name"
@@ -186,7 +192,7 @@ class Contact extends React.Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs={4} xsOffset={4}>
+                                <Col xs={12} md={8} mdOffset={2}>
                                     <TextField
                                         className={classes.name}
                                         label="Email"
@@ -206,7 +212,7 @@ class Contact extends React.Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col xs={4} xsOffset={4}>
+                                <Col xs={12} md={8} mdOffset={2}>
                                     <TextField
                                         className={classes.name}
                                         label="Phone Number"

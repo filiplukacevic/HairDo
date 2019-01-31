@@ -22,8 +22,10 @@ const styles = theme => ({
   image: {
     position: 'relative',
     height: 600,
+    marginTop: 100,
     [theme.breakpoints.down('xs')]: {
-      height: 100,
+      height: 300,
+      marginTop: 20,
     },
     '&:hover, &$focusVisible': {
       zIndex: 1,
@@ -142,7 +144,6 @@ function Home(props) {
             focusVisibleClassName={classes.focusVisible}
             style={{
               width: image.width,
-              marginTop: 100,
             }}
           >
             <span
@@ -225,7 +226,7 @@ function Home(props) {
           color="inherit"
           style={{ textAlign: "center", marginTop: 20 }}
         >
-          8:00 - 17:00
+          08:00 - 17:00
         </Typography>
         <div style={{ marginTop: 30, borderTop: "2px solid #aaa" }}></div>
         {bingMap}

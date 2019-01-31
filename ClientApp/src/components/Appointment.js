@@ -10,7 +10,7 @@ export class Appointment extends Component {
     renderHairdressers() {
         return this.props.hairdressers.map((hairdresser, index) => {
             return (
-                <Col xs={2}>
+                <Col xs={4} md={2}>
                     <Hairdresser
                         key={index}
                         selectHairdresser={this.props.selectHairdresser}
@@ -23,9 +23,10 @@ export class Appointment extends Component {
     }
 
     renderAnyHairdresser() {
-        const offset = (12 - this.props.hairdressers.length * 2) / 2 - 1;
+        const mdOffset = (12 - this.props.hairdressers.length * 2) / 2 - 1;
+        const xsOffset = (12 - this.props.hairdressers.length * 4) / 2 - 1;
         return (
-            <Col xs={2} xsOffset={offset}>
+            <Col xs={4} md={2} mdOffset={mdOffset}>
                 <Hairdresser
                     key={this.props.hairdressers.length + 1}
                     selectedHairdresser={this.props.selectedHairdresser}

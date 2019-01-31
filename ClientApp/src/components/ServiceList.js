@@ -90,8 +90,8 @@ class ServiceList extends Component {
                         {service.name}
                     </span>
                     <span style={{ flex: 1 }}></span>
-                    <span style={{ fontSize: 18 }}>
-                        {service.price}.00 KN
+                    <span style={{ fontSize: 18, minWidth: 60, marginLeft: 10 }}>
+                        {service.price} KN
                     </span>
 
                 </ListItem>
