@@ -59,7 +59,7 @@ class SelectedListItem extends React.Component {
     };
 
     renderListItems(classes) {
-        let result = (this.props.freeAppointments.map((appointment, index) => {
+        let result = this.props.freeAppointments.length === 0 ? 'Nema slobodnih termina' : (this.props.freeAppointments.map((appointment, index) => {
             let start = appointment;
             let end = appointment + 1;
             let text = start + ":00 - " + end + ":00";

@@ -78,7 +78,6 @@ const theme = createMuiTheme({
 });
 
 class Contact extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -91,8 +90,16 @@ class Contact extends React.Component {
             nameIsValid: false,
             emailIsValid: false,
             phoneNumberIsValid: false,
-            customerIsValid: false
+            customerIsValid: false,
+            loaded: false
         }
+    }
+
+    componentWillMount() {
+        if (this.props.selected.hairdresser === null || this.props.selected.service === null) {
+            window.location.href = "/services"
+        }
+        this.setState({ loaded: true });
     }
 
     handleChange = name => ({ target: { value } }) => {
@@ -139,7 +146,6 @@ class Contact extends React.Component {
     }
 
     validateCustomer() {
-        console.log(this.state.customerErrors);
         this.setState({ customerIsValid: this.state.nameIsValid && this.state.emailIsValid && this.state.phoneNumberIsValid });
     }
 
@@ -148,7 +154,6 @@ class Contact extends React.Component {
     }
 
     handleSubmit = () => {
-        //TODO: VALIDATE
         const { customer } = this.state;
 
         this.props.onCreateCustomer(customer);
@@ -161,6 +166,8 @@ class Contact extends React.Component {
         let date2 = date.toLocaleDateString('hr-HR', options) + "";
         let time = date.getHours() + ":00 - " + (date.getHours() + 1) + ":00";
         let hairdresserImage = "static/images/hairdressers/" + hairdresser.id + ".jpg";
+
+        if (!this.state.loaded) { return <div />; }
 
         return (
             <div>

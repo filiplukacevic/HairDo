@@ -19,6 +19,20 @@ const styles = theme => ({
 class Appointment extends Component {
     displayName = Appointment.name
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            loaded: false
+        }
+    }
+
+    componentWillMount() {
+        if (this.props.selectedService === null) {
+            window.location.href = "/services";
+        }
+        this.setState({ lodaded: true });
+    }
+
     renderHairdressers() {
         return this.props.hairdressers.map((hairdresser, index) => {
             return (
@@ -62,24 +76,27 @@ class Appointment extends Component {
 
     render() {
         const { classes } = this.props;
-        return (
-            <Grid className={classes.root}>
-                <Row className="show-grid">
-                    {this.renderAnyHairdresser()}
-                    {this.renderHairdressers()}
-                </Row>
-                <Row className="show-grid">
-                    <Col xs={10} xsOffset={1}>
-                        <DatePicker
-                            dates={this.getDates()}
-                            freeAppointments={this.props.freeAppointments}
-                            selectDateTime={this.props.selectDateTime}
-                            selectTime={this.props.selectTime}
-                        />
-                    </Col>
-                </Row>
-            </Grid>
-        );
+        if (this.props.appointmentLoading) { return (<h1>Loading...</h1>); }
+        else {
+            return (
+                <Grid className={classes.root}>
+                    <Row className="show-grid">
+                        {this.renderAnyHairdresser()}
+                        {this.renderHairdressers()}
+                    </Row>
+                    <Row className="show-grid">
+                        <Col xs={10} xsOffset={1}>
+                            <DatePicker
+                                dates={this.getDates()}
+                                freeAppointments={this.props.freeAppointments}
+                                selectDateTime={this.props.selectDateTime}
+                                selectTime={this.props.selectTime}
+                            />
+                        </Col>
+                    </Row>
+                </Grid>
+            );
+        }
     }
 }
 export default withStyles(styles)(Appointment);

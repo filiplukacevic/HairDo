@@ -112,7 +112,6 @@ const theme = createMuiTheme({
 
 const images = [
   {
-    // url: /static/images/0etaDMB.jpg,
     title: 'Rezerviraj termin',
     width: '100%',
   },

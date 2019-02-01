@@ -28,14 +28,14 @@ export default class App extends Component {
                 customer: null
             },
             selectedServiceIndex: null,
-            freeAppointmentsNotSelectedHairdresser: null
+            freeAppointmentsNotSelectedHairdresser: null,
+            appointmentLoading: true,
         };
     }
 
     componentDidMount() {
         this.fetchHairdressers();
         this.fetchServices();
-        // this.createAppointment();
     }
 
     fetchServices() {
@@ -87,7 +87,8 @@ export default class App extends Component {
                     });
                     this.calculateFreeAppointmentsForDate();
                 }
-            }));
+            }))
+            .then(this.setState({ appointmentLoading: false }));
     }
 
     calculateFreeAppointmentsForDate() {
@@ -205,7 +206,6 @@ export default class App extends Component {
             });
     }
 
-
     onCreateCustomer(customer) {
         this.setState({ customer }, () => this.createCustomer());
     }
@@ -269,6 +269,8 @@ export default class App extends Component {
                                 selectHairdresser={this.selectHairdresser.bind(this)}
                                 selectDateTime={this.selectDateTime.bind(this)}
                                 selectTime={this.selectTime.bind(this)}
+                                appointmentLoading={this.state.appointmentLoading}
+                                selectedService={this.state.selected.service}
                             />
                         )
                     }
