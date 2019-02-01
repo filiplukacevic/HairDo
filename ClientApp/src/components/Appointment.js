@@ -3,6 +3,7 @@ import Hairdresser from './Hairdresser';
 import { Col, Grid, Row } from 'react-bootstrap';
 import DatePicker from './DatePicker';
 import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     root: {
@@ -13,6 +14,9 @@ const styles = theme => ({
         [theme.breakpoints.down('xs')]: {
             marginBottom: 40,
         },
+    },
+    progress: {
+        margin: theme.spacing.unit * 2,
     },
 });
 
@@ -30,7 +34,10 @@ class Appointment extends Component {
         if (this.props.selectedService === null) {
             window.location.href = "/services";
         }
-        this.setState({ lodaded: true });
+    }
+
+    componentDidMount() {
+        this.setState({ loaded: true });
     }
 
     renderHairdressers() {
@@ -76,27 +83,38 @@ class Appointment extends Component {
 
     render() {
         const { classes } = this.props;
-        if (this.props.appointmentLoading) { return (<h1>Loading...</h1>); }
-        else {
+        if (!this.state.loaded) { return <div />; }
+        if (this.props.appointmentLoading) {
             return (
-                <Grid className={classes.root}>
-                    <Row className="show-grid">
-                        {this.renderAnyHairdresser()}
-                        {this.renderHairdressers()}
-                    </Row>
-                    <Row className="show-grid">
-                        <Col xs={10} xsOffset={1}>
-                            <DatePicker
-                                dates={this.getDates()}
-                                freeAppointments={this.props.freeAppointments}
-                                selectDateTime={this.props.selectDateTime}
-                                selectTime={this.props.selectTime}
-                            />
-                        </Col>
-                    </Row>
-                </Grid>
+                <Row >
+                    <Col xs={2} xsOffset={5} style={{}}>
+                        <div style={{ minHeight: 500, display: 'flex', alignItems: 'center' }}>
+                            <CircularProgress className={classes.progress} />
+                        </div>
+                    </Col>
+                </Row>
+
             );
         }
+
+        return (
+            <Grid className={classes.root}>
+                <Row className="show-grid">
+                    {this.renderAnyHairdresser()}
+                    {this.renderHairdressers()}
+                </Row>
+                <Row className="show-grid">
+                    <Col xs={10} xsOffset={1}>
+                        <DatePicker
+                            dates={this.getDates()}
+                            freeAppointments={this.props.freeAppointments}
+                            selectDateTime={this.props.selectDateTime}
+                            selectTime={this.props.selectTime}
+                        />
+                    </Col>
+                </Row>
+            </Grid>
+        );
     }
 }
 export default withStyles(styles)(Appointment);

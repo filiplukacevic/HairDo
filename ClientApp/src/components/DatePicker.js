@@ -55,16 +55,16 @@ class DatePicker extends React.Component {
     };
 
     handleChange = (_event, value) => {
-        this.props.selectDateTime(this.props.dates[value]);    
+        this.props.selectDateTime(this.props.dates[value]);
         this.setState({ value: value, selectedIndex: null });
-        this.renderDates();
+        this.renderDates(this.props.dates[value]);
     }
 
     renderTabs() {
         return this.props.dates.map((date) => <Tab label={<span style={{ fontSize: 14 }}>{date.getDate()}.{date.getMonth() + 1}</span>} />);
     }
 
-    renderDates() {
+    renderDates(date) {
         return (<AppointmentList
             freeAppointments={this.props.freeAppointments}
             selectedIndex={this.state.selectedIndex}
@@ -95,7 +95,7 @@ class DatePicker extends React.Component {
                             {this.renderTabs()}
                         </Tabs>
                     </AppBar>
-                    {this.renderDates()}
+                    {this.renderDates(new Date())}
                 </div>
             </MuiThemeProvider>
         );
