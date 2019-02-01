@@ -55,7 +55,7 @@ class DatePicker extends React.Component {
     };
 
     handleChange = (_event, value) => {
-        this.props.selectDateTime(this.props.dates[value]);
+        this.props.selectDateTime(this.props.dates[value]);    
         this.setState({ value: value, selectedIndex: null });
         this.renderDates();
     }

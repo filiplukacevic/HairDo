@@ -120,7 +120,7 @@ export default class App extends Component {
         let fa3 = [];
         FA2.forEach(fa => {
             fa3.push(fa.appointment);
-        })
+        });
 
         this.setState({ freeAppointments: fa3 });
         this.setState({ freeAppointmentsNotSelectedHairdresser: FA2 });
@@ -163,7 +163,8 @@ export default class App extends Component {
     selectTime(time) {
 
         const date = this.state.selected.date;
-        const newDate = new Date(date.getFullYear() + "-" + date.getMonth() + 1 + "-" + date.getDate() + " " + time + ":00:00");
+        const month = date.getMonth() + 1;
+        const newDate = new Date(date.getFullYear() + "-" + month + "-" + date.getDate() + " " + time + ":00:00");
         let selected = { ...this.state.selected };
         selected.date = newDate;
 
@@ -199,7 +200,7 @@ export default class App extends Component {
             .then(response => response.json())
             .then(data => {
                 let selected = { ...this.state.selected };
-                selected.customer = data
+                selected.customer = data;
                 this.setState({ selected }, () => this.createAppointment());
             });
     }
@@ -224,7 +225,7 @@ export default class App extends Component {
                 "customerId": this.state.selected.customer.id
             })
         })
-            .then(response => { if (response.status === 201) window.location.href = "/" })
+            .then(response => { if (response.status === 201) window.location.href = "/"; })
             .catch(error => console.log(error));
     }
 
@@ -280,7 +281,8 @@ export default class App extends Component {
                                 selected={this.state.selected}
                                 onCreateCustomer={this.onCreateCustomer.bind(this)}
                             />
-                        )}
+                        )
+                    }
                 />
             </Layout>
         );
