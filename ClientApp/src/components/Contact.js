@@ -45,6 +45,9 @@ const styles = theme => ({
     inputLabel: {
         fontSize: 14
     },
+    hasError: {
+        border: "1px solid red"
+    },
 
 });
 
@@ -83,17 +86,65 @@ class Contact extends React.Component {
                 name: '',
                 email: '',
                 phoneNumber: ''
-            }
+            },
+            customerErrors: { name: '', email: '', phoneNumber: '' },
+            nameIsValid: false,
+            emailIsValid: false,
+            phoneNumberIsValid: false,
+            customerIsValid: false
         }
     }
 
     handleChange = name => ({ target: { value } }) => {
+        value = value.trim();
+
+        this.setState(
+            {
+                customer: {
+                    ...this.state.customer,
+                    [name]: value
+                }
+            },
+            () => { this.validateField(name, value) }
+        );
+    }
+
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.customerErrors;
+        let { nameIsValid, emailIsValid, phoneNumberIsValid } = { ...this.state };
+        switch (fieldName) {
+            case 'email':
+                const regexf = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                emailIsValid = regexf ? true : false;
+                fieldValidationErrors.email = emailIsValid ? '' : 'Please enter a valid email';
+                break;
+            case 'name':
+                nameIsValid = value.length >= 4;
+                fieldValidationErrors.name = nameIsValid ? '' : 'Name is too short';
+                break;
+            case 'phoneNumber':
+                const regexf2 = value.match(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im);
+                phoneNumberIsValid = regexf2 ? true : false;
+                fieldValidationErrors.phoneNumber = phoneNumberIsValid ? '' : 'Please enter a valid phone number'
+                break;
+            default:
+                break;
+        }
         this.setState({
-            customer: {
-                ...this.state.customer,
-                [name]: value
-            }
-        })
+            customerErrors: fieldValidationErrors,
+            nameIsValid: nameIsValid,
+            emailIsValid: emailIsValid,
+            phoneNumberIsValid: phoneNumberIsValid
+        }, this.validateCustomer);
+    }
+
+    validateCustomer() {
+        console.log(this.state.customerErrors);
+        this.setState({ customerIsValid: this.state.nameIsValid && this.state.emailIsValid && this.state.phoneNumberIsValid });
+    }
+
+    errorClass(error) {
+        return (error.length === 0 ? '' : 'hasError');
     }
 
     handleSubmit = () => {
@@ -173,62 +224,83 @@ class Contact extends React.Component {
                         <form>
                             <Row>
                                 <Col xs={12} md={8} mdOffset={2}>
-                                    <TextField
-                                        className={classes.name}
-                                        label="Name"
-                                        value={this.state.customer.name}
-                                        onChange={this.handleChange('name')}
-                                        InputProps={{
-                                            classes: {
-                                                input: classes.inputName,
-                                            },
-                                        }}
-                                        InputLabelProps={{
-                                            className: classes.inputLabel
-                                        }}
-                                        variant="outlined"
-                                        id="name"
-                                    />
+                                    <div className={`${this.errorClass(this.state.customerErrors.name)}`}>
+                                        <TextField
+                                            className={classes.name}
+                                            label="Name"
+                                            value={this.state.customer.name}
+                                            onChange={this.handleChange('name')}
+                                            error={!this.state.nameIsValid}
+                                            helperText={this.state.customerErrors.name}
+                                            FormHelperTextProps={{
+                                                className: classes.inputLabel
+                                            }}
+                                            InputProps={{
+                                                classes: {
+                                                    input: classes.inputName,
+                                                },
+                                            }}
+                                            InputLabelProps={{
+                                                className: classes.inputLabel
+                                            }}
+                                            variant="outlined"
+                                            id="name"
+                                        />
+                                    </div>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col xs={12} md={8} mdOffset={2}>
-                                    <TextField
-                                        className={classes.name}
-                                        label="Email"
-                                        value={this.state.customer.email}
-                                        onChange={this.handleChange('email')}
-                                        InputProps={{
-                                            classes: {
-                                                input: classes.inputName,
-                                            },
-                                        }}
-                                        InputLabelProps={{
-                                            className: classes.inputLabel
-                                        }}
-                                        variant="outlined"
-                                        id="email"
-                                    />
+                                    <div className={`${this.errorClass(this.state.customerErrors.email)}`}>
+                                        <TextField
+                                            className={classes.name}
+                                            label="Email"
+                                            value={this.state.customer.email}
+                                            onChange={this.handleChange('email')}
+                                            error={!this.state.emailIsValid}
+                                            helperText={this.state.customerErrors.email}
+                                            FormHelperTextProps={{
+                                                className: classes.inputLabel
+                                            }}
+                                            InputProps={{
+                                                classes: {
+                                                    input: classes.inputName,
+                                                },
+                                            }}
+                                            InputLabelProps={{
+                                                className: classes.inputLabel
+                                            }}
+                                            variant="outlined"
+                                            id="email"
+                                        />
+                                    </div>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col xs={12} md={8} mdOffset={2}>
-                                    <TextField
-                                        className={classes.name}
-                                        label="Phone Number"
-                                        value={this.state.customer.phoneNumber}
-                                        onChange={this.handleChange('phoneNumber')}
-                                        InputProps={{
-                                            classes: {
-                                                input: classes.inputName,
-                                            },
-                                        }}
-                                        InputLabelProps={{
-                                            className: classes.inputLabel
-                                        }}
-                                        variant="outlined"
-                                        id="phone"
-                                    />
+                                    <div className={`${this.errorClass(this.state.customerErrors.phoneNumber)}`}>
+                                        <TextField
+                                            className={classes.name}
+                                            label="Phone Number"
+                                            value={this.state.customer.phoneNumber}
+                                            onChange={this.handleChange('phoneNumber')}
+                                            error={!this.state.phoneNumberIsValid}
+                                            helperText={this.state.customerErrors.phoneNumber}
+                                            FormHelperTextProps={{
+                                                className: classes.inputLabel
+                                            }}
+                                            InputProps={{
+                                                classes: {
+                                                    input: classes.inputName,
+                                                },
+                                            }}
+                                            InputLabelProps={{
+                                                className: classes.inputLabel
+                                            }}
+                                            variant="outlined"
+                                            id="phone"
+                                        />
+                                    </div>
                                 </Col>
                             </Row>
                         </form>
@@ -236,6 +308,7 @@ class Contact extends React.Component {
                             color="primary"
                             variant="raised"
                             onClick={this.handleSubmit}
+                            disabled={!this.state.customerIsValid}
                         >
                             Rezerviraj
                         </Button>

@@ -117,7 +117,14 @@ class ServiceList extends Component {
                     <List component="nav">
                         {this.renderItems()}
                     </List>
-                    <Button variant="outlined" color="primary" component={Link} to="/appointment" className={classes.button}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        component={Link}
+                        to="/appointment"
+                        className={classes.button}
+                        disabled={this.props.selectedServiceIndex === null ? true : false}
+                    >
                         Odaberi
                 </Button>
                 </div>

@@ -91,7 +91,13 @@ class SelectedListItem extends React.Component {
                     <List component="nav">
                         {this.renderListItems(classes)}
                     </List>
-                    <Button variant="outlined" color="primary" component={MyLink} className={classes.button}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        component={MyLink}
+                        className={classes.button}
+                        disabled={this.props.selectedIndex == null ? true : false}
+                    >
                         Rezerviraj
                     </Button>
                 </div>
