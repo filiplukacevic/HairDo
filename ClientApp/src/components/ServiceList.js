@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { teal } from "@material-ui/core/colors";
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { Col, Grid, Row } from 'react-bootstrap';
 
 
 const styles = theme => ({
@@ -76,6 +78,17 @@ const theme = createMuiTheme({
 class ServiceList extends Component {
     displayName = ServiceList.name
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true
+        }
+    }
+
+    componentDidMount() {
+        this.setState({ isLoading: false });
+    }
+
     handleListItemClick = (event, index) => {
         this.props.updateServiceIndex(index);
         this.props.updateService(this.props.services[index]);
@@ -108,6 +121,23 @@ class ServiceList extends Component {
 
     render() {
         const { classes } = this.props;
+
+        const items = this.renderItems();
+
+        if (this.state.isLoading) {
+            return (
+                <MuiThemeProvider theme={theme} >
+                    <Row >
+                        <Col xs={2} xsOffset={5} style={{}}>
+                            <div style={{ minHeight: 500, display: 'flex', alignItems: 'center' }}>
+                                <CircularProgress className={classes.progress} />
+                            </div>
+                        </Col>
+                    </Row>
+                </MuiThemeProvider>
+            );
+        }
+
         return (
             <MuiThemeProvider theme={theme}>
                 <div className={classes.root}>
@@ -115,7 +145,7 @@ class ServiceList extends Component {
                         Usluge
                     </Typography>
                     <List component="nav">
-                        {this.renderItems()}
+                        {items}
                     </List>
                     <Button
                         variant="outlined"

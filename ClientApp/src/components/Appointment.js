@@ -2,8 +2,10 @@
 import Hairdresser from './Hairdresser';
 import { Col, Grid, Row } from 'react-bootstrap';
 import DatePicker from './DatePicker';
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { teal } from "@material-ui/core/colors";
 
 const styles = theme => ({
     root: {
@@ -17,6 +19,15 @@ const styles = theme => ({
     },
     progress: {
         margin: theme.spacing.unit * 2,
+    },
+});
+
+const theme = createMuiTheme({
+    palette: {
+        primary: teal,
+        secondary: {
+            main: '#f44336',
+        },
     },
 });
 
@@ -86,14 +97,15 @@ class Appointment extends Component {
         if (!this.state.loaded) { return <div />; }
         if (this.props.appointmentLoading) {
             return (
-                <Row >
-                    <Col xs={2} xsOffset={5} style={{}}>
-                        <div style={{ minHeight: 500, display: 'flex', alignItems: 'center' }}>
-                            <CircularProgress className={classes.progress} />
-                        </div>
-                    </Col>
-                </Row>
-
+                <MuiThemeProvider theme={theme} >
+                    <Row >
+                        <Col xs={2} xsOffset={5} style={{}}>
+                            <div style={{ minHeight: 500, display: 'flex', alignItems: 'center' }}>
+                                <CircularProgress className={classes.progress} />
+                            </div>
+                        </Col>
+                    </Row>
+                </MuiThemeProvider>
             );
         }
 

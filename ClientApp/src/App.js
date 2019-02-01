@@ -34,8 +34,8 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        this.fetchHairdressers();
         this.fetchServices();
+        this.fetchHairdressers();
     }
 
     fetchServices() {
